@@ -1,0 +1,11 @@
+{
+  "name": "Rakshak — Response When Minutes Matter",
+  "short_name": "Rakshak",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060a",
+  "theme_color": "#05060a",
+  "icons": [
+    { "src": "/assets/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

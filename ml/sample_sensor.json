@@ -1,0 +1,7 @@
+{
+  "sensor_id": "MANIPAL-RAIN-01",
+  "rainfall_mm_1h": 6.2,
+  "rainfall_mm_24h": 18.4,
+  "soil_moisture": 0.71,
+  "water_level_m": 4.8
+}

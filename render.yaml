@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: rakshak-backend
+    env: python
+    region: singapore
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: DEMO_FALLBACK
+        value: "true"
+

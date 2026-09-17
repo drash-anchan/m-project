@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* THE BLACK-SCREEN BUG, and why these must stay transparent.
+   ----------------------------------------------------------
+   BackgroundVideo renders as `position: fixed; inset: 0; z-index: -10`.
+   Per the CSS painting algorithm, negative-z-index descendants are
+   painted in step 3 of their stacking context — BEFORE the in-flow
+   block-level backgrounds in step 4. `body` and `#root` are exactly
+   such in-flow blocks, so when they carried `background: #000` their
+   opaque black was painted directly ON TOP of the Earth video, and the
+   only thing anyone ever saw was a black screen.
+
+   The single fallback colour therefore lives on `html` (the canvas
+   background, painted first of all, so it can never cover the video),
+   and body/#root are explicitly transparent. Do not add a background
+   colour to body or #root — it will black out the Earth again. */
+html {
+  color-scheme: dark;
+  background-color: #05060a;
+  background-image: radial-gradient(ellipse at 50% 30%, #0b1220 0%, #05060a 55%, #000000 100%);
+}
+
+select,
+option,
+optgroup {
+  background-color: #12151e !important;
+  color: #ffffff !important;
+}
+
+optgroup {
+  color: #38bdf8 !important;
+}
+
+body,
+#root {
+  background: transparent;
+}
+
+/* Fallback behind the Earth video — a dark starfield-blue gradient
+   instead of flat black, so if the video is ever blocked (data-saver
+   mode, very old browser) the page still looks intentional, not broken. */
+.bg-space-gradient {
+  background: radial-gradient(ellipse at 50% 30%, #0b1220 0%, #05060a 55%, #000000 100%);
+}
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+
+/* Leaflet dark-mode friendly popup */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #1a1a1c;
+  color: #fff;
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: #fff;
+}
+
+/* Domino Cascade Step-by-Step Pop Animations */
+@keyframes dominoPop {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.92);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes dominoGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4), inset 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(245, 158, 11, 0.7), inset 0 0 15px rgba(245, 158, 11, 0.3);
+  }
+}
+
+.animate-domino-pop {
+  animation: dominoPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-domino-glow {
+  animation: dominoGlow 2s ease-in-out infinite;
+}
+
+/* Earthquake & Shockwave Tremor Shake */
+@keyframes earthquakeShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-4px, 2px) rotate(-0.5deg); }
+  25% { transform: translate(4px, -3px) rotate(0.5deg); }
+  40% { transform: translate(-3px, -2px) rotate(-0.3deg); }
+  55% { transform: translate(3px, 2px) rotate(0.3deg); }
+  70% { transform: translate(-2px, 1px) rotate(-0.1deg); }
+  85% { transform: translate(1px, -1px) rotate(0.1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.animate-earthquake {
+  animation: earthquakeShake 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
